@@ -25,7 +25,6 @@ export class Item {
       this.sellIn -= 1;
     }
   }
-
 }
 
 export class BasicItem extends Item {
@@ -36,6 +35,21 @@ export class BasicItem extends Item {
   handleBasic(){
     this.decreaseQuality()
     if (this.sellIn < 0){
+      this.decreaseQuality()
+    }
+  }
+}
+
+export class ConjuredItem extends Item {
+  constructor(name, sellIn, quality) {
+    super(name, sellIn, quality)
+    this.type = "conjured"
+  }
+  handleConjured(){
+    this.decreaseQuality()
+    this.decreaseQuality()
+    if (this.sellIn < 0){
+      this.decreaseQuality()
       this.decreaseQuality()
     }
   }
@@ -86,6 +100,9 @@ export const updateQuality = () => {
     }
     if (item.type === "basic") {
         item.handleBasic()
+    }
+    if (item.type === "conjured"){
+        item.handleConjured()
     }
     if (item.type === "brie") {
         item.increaseQuality();

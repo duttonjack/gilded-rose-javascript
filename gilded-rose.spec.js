@@ -1,5 +1,5 @@
 import { expect, describe, it } from "vitest";
-import { Item, items, updateQuality, BasicItem, LegendaryItem, UncommonItem } from "./gilded-rose.js";
+import { Item, items, updateQuality, BasicItem, LegendaryItem, UncommonItem, ConjuredItem } from "./gilded-rose.js";
 
 
 describe("updateQuality", () => {
@@ -81,6 +81,21 @@ describe("updateQuality", () => {
     expect(testItem.quality).toBe(0);
     expect(testItem.sellIn).toBe(-2);
   });
+  it("Conjured Items degrade in quality twice as fast", () => {
+    const testItem = new ConjuredItem("Axe", 4, 15)
+    items.push(testItem);
+    updateQuality()
+    expect(testItem.quality).toBe(13)
+    expect(testItem.sellIn).toBe(3)
+  })
+  it("Conjured Items degrade in quality twice as fast, checking < 0 sellIn", () => {
+    const testItem = new ConjuredItem("Axe", -3, 15)
+    items.push(testItem);
+    updateQuality()
+    updateQuality()
+    expect(testItem.quality).toBe(7)
+    expect(testItem.sellIn).toBe(-5)
+  })
 });
 
 
